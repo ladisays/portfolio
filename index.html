@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app="portfolio">
+  <head>
+    <meta charset="utf-8">
+    <title>Portfolio</title>
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="js/vendors/jquery.min.js"></script>
+    <script type="text/javascript" src="js/vendors/angular.js"></script>
+    <script type="text/javascript" src="js/controllers.js"></script>
+  </head>
+  <body>
+    <div id="wrapper">
+      <header></header>
+      
+      <div id="main">
+        <h2>My Portfolio</h2>
+        <div id="list" ng-controller="ReposCtrl">
+          <ul>
+            <li ng-repeat="repo in repos">
+              <a href="{{repo.live_view_url}}"><img src="images/{{repo.name}}.png" class="img-holder" alt="{{repo.name}}"></a>
+              <div class="result">
+                <span class="left">Repo Name:</span><span class="right">{{repo.name}}</span>
+              </div>
+              <div class="result">
+                <span class="left">Language:</span><span class="right">{{repo.language}}</span>
+              </div>
+              <div class="result">
+                <span class="left">Repo URL:</span><span class="right"><a href="{{repo.html_url}}">repo-url</a></span>
+              </div>
+              <div class="result">
+                <span class="left">Live View:</span><span class="right"><a href="{{repo.live_view_url}}">live-view-url</a></span>
+              </div>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+      
+      <footer></footer>
+    </div>
+  </body>
+</html>
