@@ -24,7 +24,7 @@
           <!-- <div ng-hide="show">Loading...</div> -->
           <ul>
             <li ng-repeat="repo in repos">
-              <a href="{{repo.liveView}}"><img src="{{repo.imageSrc}}" class="img-holder" alt="{{repo.name}}"></a>
+              <a ng-href="{{repo.liveView}}"><img ng-src="{{repo.imageSrc}}" class="img-holder" alt="{{repo.name}}"></a>
               <div class="result">
                 <span class="left">Repo Name:</span><span class="right">{{repo.name}}</span>
               </div>
@@ -32,10 +32,10 @@
                 <span class="left">Language:</span><span class="right">{{repo.language}}</span>
               </div>
               <div class="result">
-                <span class="left">Repo URL:</span><span class="right"><a href="{{repo.html_url}}">click to view source</a></span>
+                <span class="left">Repo URL:</span><span class="right"><a ng-href="{{repo.html_url}}">click to view source</a></span>
               </div>
               <div class="result">
-                <span class="left">Live View:</span><span class="right"><a href="{{repo.liveView}}">click for live view</a></span>
+                <span class="left">Live View:</span><span class="right"><a ng-href="{{repo.liveView.url}}">{{repo.liveView.text}}</a></span>
               </div>
             </li>
           </ul>

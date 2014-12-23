@@ -2,12 +2,18 @@
 var portfolio = angular.module('portfolio', []);
 
 portfolio.controller('ReposCtrl', function($scope, $http) {
+  
   $scope.show = false;
-  $scope.generatePortfolio = function(a) {
-    $scope.show = a;
-    var githubURL = 'https://api.github.com/users/' + $scope.query + '/repos';
 
-    $http.get(githubURL).
+  $scope.generatePortfolio = function(a) {
+
+    //$scope.show will accept only a boolean value, which will hide/show
+    //the text "Portfolio for *username*"
+    $scope.show = a;
+
+    var portfolioURL = 'https://api.github.com/users/' + $scope.query + '/repos';
+
+    $http.get(portfolioURL).
     success(function(data, status) {
       if(status === 200) {
         $scope.repos = data;
@@ -15,8 +21,12 @@ portfolio.controller('ReposCtrl', function($scope, $http) {
         for(var i = 0; i < $scope.repos.length; i++) {
           var liveViewUrl = 'http://' + $scope.query + '.github.io/' + $scope.repos[i].name,
               imageUrl = 'images/' + $scope.repos[i].name + '.png';
-
-          $scope.repos[i].liveView = liveViewUrl;
+          if($scope.repos[i].has_pages === true) {
+            $scope.repos[i].liveView = {url: liveViewUrl, text: "click for live view!"};
+          }
+          else {
+            $scope.repos[i].liveView = {url: "", text: "not available"};
+          }
           $scope.repos[i].imageSrc = imageUrl;
         }
       }
