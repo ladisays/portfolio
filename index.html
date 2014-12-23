@@ -5,20 +5,26 @@
     <title>Portfolio</title>
     <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script type="text/javascript" src="js/vendors/jquery.min.js"></script>
+    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script> -->
+    <!-- <script type="text/javascript" src="js/vendors/jquery.min.js"></script> -->
     <script type="text/javascript" src="js/vendors/angular.js"></script>
-    <script type="text/javascript" src="js/controllers.js"></script>
   </head>
-  <body>
+  <body ng-controller="ReposCtrl">
     <div id="wrapper">
-      <header></header>
+      <header>
+        <form ng-submit="generatePortfolio(true)">
+          <input type="text" ng-model="query" placeholder="Type in a username e.g. andela-ladenusi"><button>Submit</button>
+        </form>
+      </header>
       
       <div id="main">
-        <h2>My Portfolio</h2>
-        <div id="list" ng-controller="ReposCtrl">
+        <h2 ng-bind-template="Portfolio for {{query}}" ng-show="show"></h2>
+        <div id="list">
+          <!-- <div ng-hide="show">Loading...</div> -->
           <ul>
             <li ng-repeat="repo in repos">
-              <a href="{{repo.live_view_url}}"><img src="images/{{repo.name}}.png" class="img-holder" alt="{{repo.name}}"></a>
+              <a href="{{repo.liveView}}"><img src="{{repo.imageSrc}}" class="img-holder" alt="{{repo.name}}"></a>
               <div class="result">
                 <span class="left">Repo Name:</span><span class="right">{{repo.name}}</span>
               </div>
@@ -26,10 +32,10 @@
                 <span class="left">Language:</span><span class="right">{{repo.language}}</span>
               </div>
               <div class="result">
-                <span class="left">Repo URL:</span><span class="right"><a href="{{repo.html_url}}">repo-url</a></span>
+                <span class="left">Repo URL:</span><span class="right"><a href="{{repo.html_url}}">click to view source</a></span>
               </div>
               <div class="result">
-                <span class="left">Live View:</span><span class="right"><a href="{{repo.live_view_url}}">live-view-url</a></span>
+                <span class="left">Live View:</span><span class="right"><a href="{{repo.liveView}}">click for live view</a></span>
               </div>
             </li>
           </ul>
@@ -39,5 +45,6 @@
       
       <footer></footer>
     </div>
+    <script type="text/javascript" src="js/controllers.js"></script>
   </body>
 </html>

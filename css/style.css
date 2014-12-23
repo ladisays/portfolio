@@ -1,32 +1,64 @@
+html, body, #wrapper {
+  height: 100%;
+}
+
+
 body {
   font-size: 0.85em;
   font-family: Arial, sans-serif;
 }
 
 #wrapper {
+  background: #999 url("../images/bg.jpg") no-repeat center top;
+  width: 100%;
 }
 
 header {
   background-color: #117CF3;
   width: 100%;
   height: 4em;
+  padding: 5px 0;
   margin: 0 auto;
+  text-align: center;
+}
+
+input {
+  width: 20em;
+  height: 3em;
+  border: none;
+  font-size: 1.25em;
+  padding-left: 10px;
+  /*margin: 5px;*/
+}
+
+button {
+  width: 10em;
+  height: 3.2em;
+  border: 1px solid #fff;
+  font-size: 1.25em;
+  /*margin: 5px;*/
 }
 
 #main {
   margin: 0 auto;
   width: 70%;
-  border: 1px solid #000;
+  /*border: 1px solid #000;*/
 }
 
 h2 {
   font-size: 2.5em;
   text-align: center;
-  margin: 10px 0;
+  margin: 10px auto;
+  color: #fff;
+  display: block;
+  background-color: #117CF3;
+  width: 96%;
+  padding: 20px 0;
+  border-radius: 5px;
 }
 
 #list {
-  max-width: 100%;
+  min-width: 100%;
   margin: 0 auto;
   height: auto;
   display: block;
@@ -50,6 +82,32 @@ li {
   color: #fff;
 }
 
+li:hover {
+  /*border-color: #00930A;*/
+  border-color: red;
+}
+
+li:hover img {
+  /*border-color: #00930A;*/
+  border-color: red;
+}
+
+li:hover .result {
+  background-color: red;
+}
+
+a, a:active, a:link, a:visited {
+  color: #fff;
+}
+
+a:hover {
+  font-style: none;
+}
+
+#frame {
+  width: 99%;
+}
+
 .img-holder {
   width: 99.2%;
   height: 10em;
@@ -70,7 +128,7 @@ li {
 }
 
 .result:nth-child(odd) {
-  background-color: #00930A;
+  /*background-color: #00930A;*/
 }
 
 

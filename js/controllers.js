@@ -1,41 +1,33 @@
+
 var portfolio = angular.module('portfolio', []);
 
-portfolio.controller('ReposCtrl', function($scope) {
-  $scope.repos = [
-    {'name' : 'Calculator',
-     'language' : 'Javascript',
-     'html_url' : 'https://github.com/andela-ladenusi/calculator',
-     'live_view_url': 'http://andela-ladenusi.github.io/calculator'},
+portfolio.controller('ReposCtrl', function($scope, $http) {
+  $scope.show = false;
+  $scope.generatePortfolio = function(a) {
+    $scope.show = a;
+    var githubURL = 'https://api.github.com/users/' + $scope.query + '/repos';
 
-    {'name' : 'GoogleClone',
-     'language' : 'Javascript',
-     'html_url' : 'https://github.com/andela-ladenusi/GoogleClone',
-     'live_view_url': 'http://andela-ladenusi.github.io/GoogleClone'},
+    $http.get(githubURL).
+    success(function(data, status) {
+      if(status === 200) {
+        $scope.repos = data;
+        console.log(data);
+        for(var i = 0; i < $scope.repos.length; i++) {
+          var liveViewUrl = 'http://' + $scope.query + '.github.io/' + $scope.repos[i].name,
+              imageUrl = 'images/' + $scope.repos[i].name + '.png';
 
-    {'name' : 'HuckleBuckle',
-     'language' : 'Javascript',
-     'html_url' : 'https://github.com/andela-ladenusi/HuckleBuckle',
-     'live_view_url': 'http://andela-ladenusi.github.io/HuckleBuckle'},
-
-    {'name' : 'jobseeker',
-     'language' : 'Javascript',
-     'html_url' : 'https://github.com/andela-ladenusi/jobseeker',
-     'live_view_url': 'http://andela-ladenusi.github.io/jobseeker'},
-
-    {'name' : 'ShoppingList',
-     'language' : 'Javascript',
-     'html_url' : 'https://github.com/andela-ladenusi/ShoppingList',
-     'live_view_url': 'http://andela-ladenusi.github.io/ShoppingList'},
-
-    {'name' : 'TimeOColor',
-     'language' : 'Javascript',
-     'html_url' : 'https://github.com/andela-ladenusi/TimeOColor',
-     'live_view_url': 'http://andela-ladenusi.github.io/TimeOColor'},
-
-    {'name' : 'weatherForecast',
-     'language' : 'Javascript',
-     'html_url' : 'https://github.com/andela-ladenusi/weatherForecast',
-     'live_view_url': 'http://andela-ladenusi.github.io/weatherForecast'}
-  ];
-
-});
+          $scope.repos[i].liveView = liveViewUrl;
+          $scope.repos[i].imageSrc = imageUrl;
+        }
+      }
+    }).
+    error(function(data, status) {
+      if(status === 404) {
+        alert("Oops!\nCould not find any portfolio for" + $scope.query);
+      }
+      else if(status !== 200) {
+        alert("Oops! We are sorry!\nThere was an error with the request.");
+      }
+    }); // end $http.get
+  }
+}); // end ReposCtrl
