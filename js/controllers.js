@@ -1,25 +1,17 @@
-
 var app = angular.module('portfolio', []);
 
-app.factory('Utils', function($q) {
+app.factory('Utils', function() {
   return {
-    isImage: function(src) {
-    
-      var deferred = $q.defer();
-  
+    isImage: function(src, index, cb) {
+      
       var image = new Image();
+      image.src = src;
       image.onerror = function() {
-        deferred.resolve(false);
-        return false;
+        cb(false, index);
       };
       image.onload = function() {
-        deferred.resolve(true);
-        return true;
+        cb(true, index);
       };
-
-      image.src = src;
-
-      return deferred.promise;
     }
   };
 }); // end app.factory
@@ -44,16 +36,25 @@ app.controller('ReposCtrl', function($scope, $http, Utils) {
         //loop through all the repos and add 'liveViewUrl' and 'imageSrc' properties 
         for(var i = 0; i < $scope.repos.length; i++) {
           var liveViewUrl = 'http://' + $scope.query + '.github.io/' + $scope.repos[i].name,
-              imageUrl = new Array(2);
+              defaultImg = 'images/placeholder.png',
+              imageSrc  = 'images/' + $scope.repos[i].name + '.png';
 
-          //imageUrl
-          imageUrl[0] = 'images/' + $scope.repos[i].name + '.png';
-
-          //default image url
-          imageUrl[1] = 'images/placeholder.png';
-          
-          // $scope.repos[i].imageSrc = (Utils.isImage(imageUrl[0])) ? imageUrl[0] : imageUrl[1];
-
+          //check if the generated image url is true, else use the placeholder image as a default
+          Utils.isImage(imageSrc, i, function(bool, index) {
+            if(bool) {
+              var imageUrl = 'images/' + $scope.repos[index].name + '.png';
+              $scope.$apply(function() {
+                $scope.repos[index].imageSrc = imageUrl;
+              });
+              
+            }
+            else {
+              $scope.$apply(function() {
+                $scope.repos[index].imageSrc = defaultImg;
+              });
+            }
+            
+          });
 
           //check if the a repo has gh-pages, if not, set live view to not available
           if($scope.repos[i].has_pages === true) {
@@ -77,7 +78,6 @@ app.controller('ReposCtrl', function($scope, $http, Utils) {
   }; // end $scope.generatePortfolio
 
 }); // end app.controller
-
 
 
 
